@@ -12,7 +12,8 @@ import java.util.regex.Pattern;
 public class MapFiles {
 	
 	public static void main(String argv[]) throws Exception {
-		String headersFileName = "C:/snardi/ws_sns/Map/data/fields.csv";
+		String headersFileName = "C:/snardi/git-java-sandbox/java-sandbox/data/fields.csv";
+		String dataFile = "C:/snardi/git-java-sandbox/java-sandbox/data/dig_inputFile.txt";
 		
 		ArrayList<String> fieldNames = new ArrayList<>();
 		
@@ -31,9 +32,22 @@ public class MapFiles {
 			}
 		}
 		
-		for (String fieldName:fieldNames) {
-			System.out.println(fieldName);
+		//fieldNames.forEach((String s) -> (System.out.println(s)));
+		int numFields = fieldNames.size();
+		
+		try (FileReader reader = new FileReader(new File(dataFile));
+				BufferedReader br = new BufferedReader(reader);) {
+			String line;
+			while ((line = br.readLine()) != null) {
+				String fields[] = line.split("\\|");
+				System.out.println(fields.length);
+				int i = 0;
+				for (String name:fieldNames) {
+					System.out.println(name + " -> " + (i >= fields.length ? "?????" : fields[i++]));
+				}
+			}
 		}
+		
 	}
 	
 	
